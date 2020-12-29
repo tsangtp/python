@@ -1,0 +1,87 @@
+def Checking(money):
+    print("\tYou have " + str(money))
+    print("\t1. Return the main")
+    print("\t2. Quit")
+    op=int(input("\tEnter the option: "))
+    if op == 1:
+        Main(money)
+    elif op == 2:
+        return money
+    else:
+        Checking(money)
+
+def Saving(money):
+    saving=int(input("\tSaving: "))
+    print("\tSuccess")
+    print("\t1. Return the main")
+    print("\t2. Quit")
+    op = int(input("\tEnter the option: "))
+    if op == 1:
+        Main(money+saving)
+    elif op == 2:
+        return money+saving
+
+
+
+def Transfer(money):
+    transferid = input("\tTransfer Id is: ")
+    while True:
+        transfer=int(input("\tHow much do you want to transfer "+ str(transferid) + " : "))
+        if transfer>money:
+            print("\tYou have not much money")
+            print("\tPlease input again")
+        else:
+            print("\tSuccess transfer")
+            print("\t1. Return the main")
+            print("\t2. Quit")
+            op = int(input("\tEnter the option: "))
+            if op == 1:
+                Main(money - transfer)
+                break
+            else:
+                return money - transfer
+
+
+def Password():
+    pw=123456
+    print("\tWelcome to MyBanking")
+    count = 3
+    while True:
+        password = int(input("\tEnter your password: "))
+
+        if password != pw:
+            print("\tWorng Password")
+            count -= 1
+            print("\tYou have " + str(count) + " chance")
+            if count == 0:
+                print("\tYour account are locked")
+                break
+        elif password == pw:
+            print("\tSuccess to login")
+            money = 10000
+            Main(money)
+            break
+
+def Main(money):
+
+    print("\t1. Checking ")
+    print("\t2. Saving ")
+    print("\t3. Transfer ")
+    print("\t4. Quit")
+    op=int(input("\tEnter the option: "))
+    if op==1:
+        money= Checking(money)
+    elif op==2:
+        money= Saving(money)
+    elif op==3:
+        money= Transfer(money)
+    elif op==4:
+        print("\tThank you for using")
+    else:
+        print("\tPlease input 1 to 4")
+        print("\tPlease input again")
+        Main(money)
+
+Password()
+
+
