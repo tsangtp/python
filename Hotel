@@ -1,0 +1,427 @@
+import random
+import datetime
+import pickle
+import os
+import pathlib
+from datetime import timedelta
+
+def UI():
+    print("1.Login")
+    print("2.New Customer")
+    op=int(input("\tEnter your choice: "))
+    if op == 1:
+        Loginpage()
+    elif op == 2:
+        NewCustomer()
+    else:
+        print("Invalid")
+        UI()
+def Loginpage():
+    cfile = pathlib.Path('Customers')
+    PreLogin = "M123"
+    print("Please enter your code/Manager code")
+    if cfile.exists():
+        outfile = open(cfile, 'rb')
+        Customers = pickle.load(outfile)
+        outfile.close()
+    else:
+        print("No Customer")
+        Customers = []
+    Login = input("\tLogin: ")
+    if Login == PreLogin:
+        ManagerFunction()
+    elif Login != PreLogin:
+        count = len(Customers)
+        if count == 0:
+            print("Please try again.")
+            UI()
+        for i in Customers:
+            count -= 1
+            if int(Login) == i[0]:
+                check=i[0]
+                file=pathlib.Path('check')
+                outfile = open(file, 'wb')
+                pickle.dump(check,outfile)
+                outfile.close()
+                Customer_check()
+                Customer()
+                break
+            elif int(Login) != i[0] and count == 0:
+                print("Invalid code.")
+                print("Please try again.")
+                Loginpage()
+
+
+def Customer_check():
+    cfile = pathlib.Path('Customers')
+    outfile = open(cfile, 'rb')
+    Customer = pickle.load(outfile)
+    outfile.close()
+
+    file = pathlib.Path('check')
+    outfile = open(file, 'rb')
+    check = pickle.load(outfile)
+    outfile.close()
+
+def Customer():
+    total_price = 0
+    total_room = 0
+    Quantity = []
+    Room_select = []
+    price = []
+    while True:
+        if new_room['Single Bedrooms'] == 0 and new_room['Double Bedrooms'] == 0 and new_room['Executive Rooms'] == 0 and new_room['President Suite'] ==0:
+            print("Sorry, all room is full, please try it next time.")
+            break
+        else:
+            print("1. Single Bedrooms (" + str(new_room['Single Bedrooms']) + ")\tHK$" + str(Room_price['Single Bedrooms']) + "/day")
+            print("2. Double Bedrooms (" + str(new_room['Double Bedrooms']) + ")\tHK$" + str(Room_price['Double Bedrooms']) + "/day")
+            print("3. Executive Rooms (" + str(new_room['Executive Rooms']) + ")\tHK$" + str(Room_price['Executive Rooms']) + "/day")
+            print("4. President Suite (" + str(new_room['President Suite']) + ")\tHK$" + str(Room_price['President Suite']) + "/day")
+            print("5. Breakfast coupons\tHK$" + str(Room_price['Breakfast coupons']) + "/coupon")
+            op=int(input("\tOnly select: "))
+            if op == 1:
+                if new_room['Single Bedrooms'] == 0:
+                    print("Sorry,Single Bedrooms is full,Please book another room(s)")
+                    os.remove('check')
+                else:
+                    room=int(input("\tHow many do you want to book: "))
+                    while room>new_room['Single Bedrooms']:
+                        print("Do not have many room,just have " + str(new_room['Single Bedrooms']) +" room")
+                        room = int(input("\tHow many do you want to book: "))
+                    if new_room['Single Bedrooms'] >= room:
+                        for i in range(room):
+                            if Room_select != "Single":
+                                Room_select.append("Single")
+                            Quantity.append(room)
+                            price.append(Room_price['Single Bedrooms'])
+                            break
+                        total_room += room
+                        new_room['Single Bedrooms'] -= room
+                        total_price += int(Room_price['Single Bedrooms']) * room
+                        choice = input("Do you want to reserve another room (Y/N): ")
+                        if choice =="N":
+                            break
+            elif op == 2:
+                if new_room['Double Bedrooms'] == 0:
+                    print("Sorry,Double Bedrooms is full,Please book another room(s)")
+                else:
+                    room=int(input("\tHow many do you want to book: "))
+                    while room>new_room['Double Bedrooms']:
+                        print("Do not have many room,just have " + str(new_room['Double Bedrooms']) +" room")
+                        room = int(input("\tHow many do you want to book: "))
+                    if new_room['Double Bedrooms'] >= room:
+                        for i in range(room):
+                            if Room_select != "Double":
+                                Room_select.append("Double")
+                            Quantity.append(room)
+                            price.append(Room_price['Double Bedrooms'])
+                            break
+                        total_room += room
+                        new_room['Double Bedrooms'] -= room
+                        total_price += int(Room_price['Double Bedrooms']) * room
+                        choice = input("Do you want to reserve another room (Y/N): ")
+                        if choice =="N":
+                            break
+            elif op == 3:
+                if new_room['Executive Rooms'] == 0:
+                    print("Sorry,Executive Rooms is full,Please book another room(s)")
+                else:
+                    room=int(input("\tHow many do you want to book: "))
+                    while room>new_room['Executive Rooms']:
+                        print("Do not have many room,just have " + str(new_room['Executive Rooms']) +" room")
+                        room = int(input("\tHow many do you want to book: "))
+                    if new_room['Executive Rooms'] >= room:
+                        for i in range(room):
+                            if Room_select != "Executive":
+                                Room_select.append("Executive")
+                            Quantity.append(room)
+                            price.append(Room_price['Executive Rooms'])
+                            break
+                        total_room += room
+                        new_room['Executive Rooms'] -= room
+                        total_price += int(Room_price['Executive Rooms']) * room
+                        choice = input("Do you want to reserve another room (Y/N): ")
+                        if choice =="N":
+                            break
+            elif op == 4:
+                if new_room['President Suite'] == 0:
+                    print("Sorry,President Suite is full,Please book another room(s)")
+                else:
+                    room=int(input("\tHow many do you want to book: "))
+                    while room>new_room['President Suite']:
+                        print("Do not have many room,just have " + str(new_room['President Suite']) +" room")
+                        room = int(input("\tHow many do you want to book: "))
+                    if new_room['President Suite'] >= room:
+                        for i in range(room):
+                            if Room_select != "President":
+                                Room_select.append("President")
+                            Quantity.append(room)
+                            price.append(Room_price['President Suite'])
+                            break
+                        total_room += room
+                        new_room['President Suite'] -= room
+                        total_price += int(Room_price['President Suite']) * room
+                        choice = input("Do you want to reserve another room (Y/N): ")
+                        if choice =="N":
+                                break
+            elif op == 5:
+                room=int(input("\tHow many do you want to buy: "))
+                for i in range(room):
+                    if Room_select != "Breakfast coupons":
+                        Room_select.append("Breakfast coupons")
+                    Quantity.append(room)
+                    price.append(Room_price['Breakfast coupons'])
+                    break
+                total_price+=int(Room_price['Breakfast coupons']) * room
+                choice = input("Do you want to reserve another room (Y/N): ")
+                if choice == "N":
+                    break
+            else:
+                print("Invalid")
+            date(total_price,total_room)
+            os.remove('Room')
+            infile = open('new_Room', 'wb')
+            pickle.dump(new_room,infile)
+            infile.close()
+            os.rename('new_Room','Room')
+            for i in range(total_room):
+                roomkey = random.randint(900, 999)
+                print("Room " + str(i + 1) + " Key: " + str(roomkey))
+            print("Room Type(s)\tQuantity\tCost(HK$/day)")
+            for i in range(len(Room_select)):
+                print(str(i+1) + ". " + str(Room_select[i]) + "\t\t\t" + str(Quantity[i]) + "\t\t\t" + str(price[i]))
+            print("   Total\t\t\t\t\t\t" + str(total_price))
+            file = pathlib.Path('time')
+            outfile = open('time', 'rb')
+            oldlist = pickle.load(outfile)
+            outfile.close()
+            for i in range(len(oldlist)):
+                print("Rental date: " + str(oldlist[i]) + "\tReturn date: " + str(oldlist[i+1]))
+                break
+            os.remove('time')
+            os.remove('check')
+
+def date(price,room):
+    y = int(input("\tyear: "))
+    m = int(input("\tmonth: "))
+    d = int(input("\tday: "))
+    Start_time = datetime.datetime(y, m, d)
+    book = int(input("\tHow many days do you want to book: "))
+    End_time = Start_time + timedelta(days=book)
+    total_price = price*book
+    time=[Start_time.strftime("%x"),End_time.strftime("%x")]
+    cfile = pathlib.Path('check')
+    if cfile.exists():
+        infile = open(cfile, 'rb')
+        check = pickle.load(infile)
+        infile.close()
+        file = pathlib.Path('Customers')
+        if file.exists():
+            infile = open('Customers', 'rb')
+            oldlist = pickle.load(infile)
+            infile.close()
+            os.remove('Customers')
+            for i in oldlist:
+                if i[0] == check:
+                    i.append("Start: " + str(Start_time.strftime("%d/%m/%Y")))
+                    i.append("End: " + str(End_time.strftime("%d/%m/%Y")))
+                    i.append(str(book) + "Day(s)")
+                    i.append(str(room) + "Room(s)")
+                    i.append("$" + str(total_price))
+                    file = pathlib.Path('CustomerwithPayment')
+                    outfile = open('CustomerwithPayment', 'wb')
+                    pickle.dump(oldlist, outfile)
+                    outfile.close()
+                    os.rename('CustomerwithPayment', 'Customers')
+                    file = pathlib.Path('time')
+                    outfile = open('time', 'wb')
+                    pickle.dump(time, outfile)
+                    outfile.close()
+
+def NewCustomer():
+    print("Create new account")
+    Fname=input("\tFull name: ")
+    while True:
+        CreditCard=input("\tCredit Card(11 digits): ")
+        n=len(CreditCard)
+        if n == 11:
+            break
+        else:
+            print("Please enter the correct Credit Card number")
+    while True:
+        HKID=input("\tHKID(A1234567): ")
+        n=len(HKID)
+        if n == 8:
+            break
+        else:
+            print("Please enter the correct HKID")
+    while True:
+        check="@"
+        Email=input("\tEmail address: ")
+        if check in Email:
+            break
+        else:
+            print("\tPlease enter the correct Email")
+    code = random.randint(1, 800)
+    Customer=[code,Fname,CreditCard,HKID,Email]
+    print(Customer)
+    print("Your login code is " + str(code) + '.')
+    file = pathlib.Path('Customers')
+    if file.exists():
+        infile = open('Customers', 'rb')
+        oldlist = pickle.load(infile)
+        oldlist.append(Customer)
+        infile.close()
+        os.remove('Customers')
+
+    else:
+        oldlist = [Customer]
+    outfile = open('newCustomers', 'wb')
+    pickle.dump(oldlist, outfile)
+    outfile.close()
+    os.rename('newCustomers', 'Customers')
+
+
+def ManagerFunction():
+    while True:
+        print("1.Customers detail")
+        print("2.Room detail")
+        print("3.Room money detail")
+        print("4.Quit")
+        op=int(input("Enter your choice: "))
+        if op == 1:
+            file = pathlib.Path('Customers')
+            if file.exists():
+                Cfile = open('Customers', 'rb')
+                Customers = pickle.load(Cfile)
+                Cfile.close()
+                for i in Customers:
+                    print(i)
+                op = input("\tContinue? (Y/N): ")
+                while op != "Y":
+                    if op == "N":
+                        break
+                    else:
+                        print("Invalid")
+                        op = input("\tContinue? (Y/N): ")
+                if op == "Y":
+                    ManagerFunction()
+                    break
+
+                break
+            else:
+                print("No Customer detail")
+        elif op == 2:
+            try:
+                os.remove('Room')
+                print(new_room)
+                infile = open('new_Room', 'wb')
+                pickle.dump(new_room, infile)
+                infile.close()
+            except:
+                print(new_room)
+                infile = open('new_Room', 'wb')
+                pickle.dump(new_room, infile)
+                infile.close()
+                os.rename('new_Room', 'Room')
+            op = input("\tContinue? (Y/N): ")
+            while op != "Y":
+                if op == "N":
+                    break
+                else:
+                    print("Invalid")
+                    op = input("\tContinue? (Y/N): ")
+            if op == "Y":
+                ManagerFunction()
+                break
+            break
+
+
+
+        elif op == 3:
+            file = pathlib.Path('Room_price')
+            if file.exists():
+                RPfile = open('Room_price','rb')
+                Room_price=pickle.load(RPfile)
+                RPfile.close()
+                print(Room_price)
+                print("Do you want to change the price of room")
+                op=input("\t(Y/N): ")
+                while True:
+                    if op =="N":
+                        break
+                    if op == "Y":
+                        break
+                    print("Invalid")
+                    print("Do you want to change the price of room")
+                    op = input("\t(Y/N): ")
+                if op == "N":
+                    pass
+                elif op == "Y":
+                    os.remove('Room_price')
+                    for index in Room_price:
+                        print(index)
+                        print(Room_price[index])
+                        i = input("\tHow much do you want to change: ")
+                        Room_price[index]=i
+                        if index == len(Room_price):
+                            break
+                    print(Room_price)
+                    outfile = open('newRoom_price', 'wb')
+                    pickle.dump(Room_price, outfile)
+                    outfile.close()
+                    os.rename('newRoom_price', 'Room_price')
+                    op= input("\tContinue? (Y/N): ")
+                    while op !="Y":
+                        if op == "N":
+                            break
+                        else:
+                            print("Invalid")
+                            op = input("\tContinue? (Y/N): ")
+                    if op == "Y":
+                        ManagerFunction()
+                        break
+                break
+            else:
+                print("No Room price detail")
+        elif op == 4:
+            break
+        else:
+            print("Invalid")
+
+
+
+Room_price={'Single Bedrooms':500,'Double Bedrooms':800,'Executive Rooms':1500,'President Suite':5000,'Breakfast coupons':50}
+file=pathlib.Path('Room_price')
+if file.exists():
+    outfile = open('Room_price', 'rb')
+    Room_price = pickle.load(outfile)
+    outfile.close()
+else:
+    outfile = open(file,'wb')
+    pickle.dump(Room_price,outfile)
+    outfile.close()
+
+
+Room = {'Single Bedrooms': 10, 'Double Bedrooms': 10, 'Executive Rooms': 5, 'President Suite': 2}
+filename = pathlib.Path('Room')
+if filename.exists():
+    outfile = open('Room', 'rb')
+    new_room = pickle.load(outfile)
+    outfile.close()
+else:
+    outfile = open('Room', 'wb')
+    pickle.dump(Room, outfile)
+    outfile.close()
+    outfile = open('Room', 'rb')
+    new_room = pickle.load(outfile)
+    outfile.close()
+
+
+print("XYZ Hotel")
+UI()
+
+
+
+
