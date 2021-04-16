@@ -1,0 +1,97 @@
+import random
+
+WORDLIST_FILENAME = "words.txt"
+
+
+def loadWords():
+
+    print("Loading word list from file...")
+
+    inFile = open(WORDLIST_FILENAME, 'r')
+
+    line = inFile.readline()
+
+    wordlist = line.split()
+    print("  ", len(wordlist), "words loaded.")
+    return wordlist
+
+
+def chooseWord(wordlist):
+
+    return random.choice(wordlist)
+
+wordlist = loadWords()
+
+
+def isWordGuessed(secretWord, lettersGuessed):
+
+    isWord = 0
+    for i in secretWord:
+        if i in lettersGuessed:
+            isWord += 1
+    if isWord == len(secretWord):
+        return True
+    else:
+        return False
+
+
+
+def getGuessedWord(secretWord, lettersGuessed):
+
+    word = '_' * len(secretWord)
+    for i in range(len(secretWord)):
+        if secretWord[i] in lettersGuessed:
+            word = word[:i] + secretWord[i] + word[i+1:]
+    return word
+
+
+def getAvailableLetters(lettersGuessed):
+
+    Available = 'abcdefghijklmnopqrstuvwxyz'
+    word = ''
+    for i in Available:
+        if i not in lettersGuessed:
+            word += i
+    return word
+
+
+def hangman(secretWord):
+
+    print("Welcome to the game Hangman!")
+    print("I am thinking of a word that is " + str(len(secretWord)) + " letters long.")
+    choice = 6
+    print(secretWord)
+    lettersGuessed = []
+
+    while choice != 0:
+        print("-----------")
+        print("You have " + str(choice) + " guesses left.")
+        letters = getAvailableLetters(lettersGuessed)
+        print("Available letters: " + str(letters))
+        guess = input("Please guess a letter: ")
+        if guess not in 'abcdefghijklmnopqrstuvwxyz':
+            print("Please input range(abcdefghijklmnopqrstuvwxyz)")
+        elif len(guess) != 1:
+            print("Please input a letter")
+        else:
+            if guess in lettersGuessed:
+                print("Oops! You've already guessed that letter: " + str(guess))
+            else:
+                lettersGuessed.append(guess)
+                answer = getGuessedWord(secretWord, lettersGuessed)
+                if guess in secretWord:
+                    print("Good guess: " + str(answer))
+                else:
+                    print("Oops! That letter is not in my word: " + str(answer))
+                    choice -= 1
+        if choice == 0:
+            print("-----------")
+            print("Sorry, you ran out of guesses. The word was else.")
+            break
+        if isWordGuessed(secretWord,answer):
+            print("-----------")
+            print("Congratulations, you won!")
+            break
+            
+answer = (random.choice(wordlist))
+hangman(answer) 
