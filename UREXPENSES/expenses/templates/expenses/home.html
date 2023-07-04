@@ -1,0 +1,45 @@
+{% extends "expenses/template.html" %}
+{% block title %}home{% endblock %}
+{% block content %}
+Hello,{{ username }}
+<p>
+    <form class="d-flex" role="search" method="POST" action="{% url 'Search' %}">
+        {% csrf_token %}
+        <input type="search" placeholder="Search For Something" name="search_query">
+        <input type = "submit" name = "Search" value = "Search">
+    </form>
+</p>
+<p>
+    <a href="{% url 'Add' %}" class="btn btn-info">Add New Product</a>
+</p>
+<table class="table table-bordered table-striped"> 
+    <thead class="thead-dark">
+        <tr>
+            <th></th>
+            <th>Product</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for expense in expenses %}
+            <tr>
+                <td><img src = "{{ expense.image.url }}" alt = "No Image" width = "100px"></td>
+                <td>{{ expense.name }}</td>
+                <td>{{ expense.price }}</td>
+                <td>
+                    <a href="{% url 'Update' expense.id %}" class="btn btn-info">Update</a>
+                    <a href="{% url 'Delete' expense.id %}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% for expense in expenses %}
+<div>
+<p><img src = "{{ expense.image.url }}" alt = "No Image" width = "100px"></p>
+{{expense.name}} 
+</div>
+{% endfor %}
+<a class="btn btn-lg btn-primary" href="{% url 'Logout' %}" role="button">Logout</a>
+{% endblock %}

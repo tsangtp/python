@@ -1,0 +1,13 @@
+{% extends "expenses/template.html" %}
+{% block title %}login{% endblock %}
+{% block content %}
+<h3>Login</h3>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <input class="btn btn-primary" type="submit" value="Login" />
+    <p>Do you have account? <a href="{% url 'Register' %}">Register</a></p>
+</form>
+{% endblock %}

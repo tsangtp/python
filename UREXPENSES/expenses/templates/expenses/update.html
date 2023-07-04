@@ -1,0 +1,26 @@
+{% extends "expenses/template.html" %}
+{% block title %}update{% endblock %}
+{% block content %}
+<h1><p id = 'title'>Update</p></h1>
+<form enctype = "multipart/form-data" action="" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <div class="form-group col-md-6">
+            <div class="form-row">
+                <img src = "{{ form.instance.image.url }}" width = "100px">
+            </div>
+            {{form.image}}
+            <div class="form-row">
+                <label>{{ form.name.label }}</label>
+                {{ form.name }}
+            </div>
+            <div class="form-row">
+                <label>{{ form.price.label }}</label>
+                {{ form.price }}
+            </div>
+        <input class="btn btn-success" type="submit" value="Update" />
+        <a class="btn btn-warning" href="{% url 'Home' %}">Cancel</a>
+        </div>
+    </div>
+</form>
+{% endblock %}

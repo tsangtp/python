@@ -1,0 +1,22 @@
+{% extends "expenses/template.html" %}
+{% block title %}add{% endblock %}
+{% block content %}
+<h1><p id = 'title'>Add New Restaurant</p></h1>
+
+<form enctype = "multipart/form-data" action="" method="POST">
+    {% csrf_token %}
+    <div class="form-row">
+        {{ form.image }}
+    </div>
+    <div class="form-row">
+        <label>{{ form.name.label }}</label>
+        {{ form.name }}
+    </div>
+    <div class="form-row">
+        <label>{{ form.price.label }}</label>
+        {{ form.price }}
+    </div>
+    <input type="submit" class="btn btn-success" style="margin-top:30px;" value="Save">
+    <a class="btn btn-warning" href="{% url 'Home' %}">Cancel</a>
+</form>
+{% endblock %}

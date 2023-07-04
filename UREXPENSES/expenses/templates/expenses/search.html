@@ -1,0 +1,31 @@
+{% extends "expenses/template.html" %}
+{% block title %}search{% endblock %}
+{% block content %}
+{% if query %}
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+             <tr>
+                <th></th>
+                <th>Product</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+                <tr>
+                    <td><img src = "{{ expense.image.url }}" alt = "No Image" width = "100px"></td>
+                    <td>{{ expense.name }}</td>
+                    <td>{{ expense.price }}</td>
+                    <td>
+                        <a href="{% url 'Update' expense.id %}" class="btn btn-info">Update</a>
+                        <a href="{% url 'Delete' expense.id %}" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <h1>Please enter a search query</h1>
+{% endif %}
+{% endblock %}

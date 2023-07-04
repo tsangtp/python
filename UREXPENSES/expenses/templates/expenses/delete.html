@@ -1,0 +1,11 @@
+{% extends "expenses/template.html" %}
+{% block title %}delete{% endblock %}
+{% block content %}
+<h1><p id = 'title'>Delete</p></h1>
+<h3>Are you sure to delete Product({{ expense.name }})?</h3>
+<form action="" method="POST">
+    {% csrf_token %}
+    <input class="btn btn-success" type="submit" value="Sure">
+    <a class="btn btn-warning" href="{% url 'Home' %}">Cancel</a>
+</form>
+{% endblock %}
